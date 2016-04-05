@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet"/>
+}
+<h2>jQuery EasyUI DataGrid - Sample 1 - 基礎篇</h2>
+
+<table id="DataGrid"></table>
+
+<br/>
+<p>
+    <a href="http://kevintsengtw.blogspot.tw/2013/10/aspnet-mvc-jquery-easyui-datagrid.html" target="_blank">文章 - ASP.NET MVC 使用 jQuery EasyUI DataGrid 基礎篇</a>
+</p>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.easyui-1.4.3.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#DataGrid').datagrid({
+                title: 'Northwind - Category',
+                url: '@Url.Action("GetGridJSON", "Sample1")',
+                width: '600',
+                height: '300',
+                rownumbers: true,
+                columns: [
+                    [
+                        { field: 'CategoryID', title: 'ID' },
+                        { field: 'CategoryName', title: 'Name' },
+                        { field: 'Description', title: 'Description' }
+                    ]
+                ]
+            });
+        });
+    </script>
+}

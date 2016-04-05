@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet"/>
+}
+<div class="page-header">
+    <h2>jQuery EasyUI DataGrid - Sample 6-1 - 顯示 Details（使用 PartialView）</h2>
+</div>
+
+<table id="DataGrid"></table>
+
+<br/>
+<p>
+    <a href="http://kevintsengtw.blogspot.tw/2013/10/aspnet-mvc-jquery-easyui-datagrid_21.html" target="_blank">文章 - ASP.NET MVC 使用 jQuery EasyUI DataGrid - 顯示 Details（使用 PartialView）</a>
+</p>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.easyui-1.4.3.min.js"></script>
+    <script src="~/Scripts/datagrid-detailview.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#DataGrid').datagrid({
+                title: 'Northwind - Category',
+                url: '@Url.Action("GetGridJSON", "Sample6")',
+                width: '800',
+                height: '400',
+                rownumbers: true,
+                columns: [
+                    [
+                        { field: 'ck', checkbox: true },
+                        { field: 'CategoryID', title: 'ID' },
+                        { field: 'CategoryName', title: 'Name' },
+                        { field: 'Description', title: 'Description', width: 600 }
+                    ]
+                ],
+                view: detailview,
+                detailFormatter: function(index, row) {
+                    return '<div id="ddv-' + index + '" style="padding:5px;"></div>';
+                },
+                onExpandRow: function(index, row) {
+                    $('#ddv-' + index).panel({
+                        border: false,
+                        cache: false,
+                        href: '@Url.Action("GetByCategory", "Product", new { categoryId = "_id_" })'
+                            .replace("_id_", row.CategoryID),
+                        onLoad: function() {
+                            $('#DataGrid').datagrid('fixDetailRowHeight', index);
+                        }
+                    });
+                    $('#DataGrid').datagrid('fixDetailRowHeight', index);
+                }
+            });
+        });
+    </script>
+}

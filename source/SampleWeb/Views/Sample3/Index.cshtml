@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet"/>
+}
+
+<h2>jQuery EasyUI DataGrid - Sample 3 - 排序 (Sorting)</h2>
+
+<table id="DataGrid"></table>
+
+<br/>
+<p>
+    <a href="http://kevintsengtw.blogspot.tw/2013/10/aspnet-mvc-jquery-easyui-datagrid_9.html" target="_blank">文章 - ASP.NET MVC 使用 jQuery EasyUI DataGrid - 排序 (Sorting)</a>
+</p>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.easyui-1.4.3.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var getGridJSON = '@Url.Action("GetGridJSON", "Sample3")';
+            Initialize_DataGrid(getGridJSON);
+        });
+
+        function Initialize_DataGrid(getGridJSON) {
+            $('#DataGrid').datagrid({
+                title: 'Northwind - Customer',
+                url: getGridJSON,
+                width: '800',
+                height: '400',
+                rownumbers: true,
+                sortName: 'CustomerID',
+                sortOrder: 'asc',
+                columns: [
+                    [
+                        { field: 'CustomerID', title: 'ID', sortable: true },
+                        { field: 'CompanyName', title: 'CompanyName', sortable: true },
+                        { field: 'ContactName', title: 'ContactName', sortable: true },
+                        { field: 'ContactTitle', title: 'ContactTitle', sortable: true },
+                        { field: 'Address', title: 'Address' },
+                        { field: 'City', title: 'City', sortable: true },
+                        { field: 'Region', title: 'Region' },
+                        { field: 'Country', title: 'Country', sortable: true },
+                        { field: 'Phone', title: 'Phone' },
+                        { field: 'Fax', title: 'Fax' }
+                    ]
+                ],
+                pagination: true,
+                pagePosition: 'bottom',
+                pageSize: 10
+            });
+
+            var pager = $('#DataGrid').datagrid('getPager');
+            $(pager).pagination({
+                pageSize: 10,
+                showPageList: true,
+                pageList: [10, 20, 50],
+                beforePageText: '第',
+                afterPageText: '頁 , 共 {pages} 頁',
+                displayMsg: '顯示 {from} 到 {to} 筆資料 , 共 {total} 筆資料'
+            });
+        }
+    </script>
+}
